@@ -1,0 +1,63 @@
+package hu.bme.mit.yakindu.analysis.workhere;
+
+import java.util.ArrayList;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.yakindu.base.types.Direction;
+import org.yakindu.sct.model.sgraph.Scope;
+import org.yakindu.sct.model.sgraph.State;
+import org.yakindu.sct.model.sgraph.Statechart;
+import org.yakindu.sct.model.sgraph.Transition;
+import org.yakindu.sct.model.sgraph.Trigger;
+import org.yakindu.sct.model.stext.stext.EventDefinition;
+import org.yakindu.sct.model.stext.stext.VariableDefinition;
+
+import hu.bme.mit.model2gml.Model2GML;
+import hu.bme.mit.yakindu.analysis.modelmanager.ModelManager;
+
+public class Task4 {
+	
+	public static void Main() {
+		ModelManager manager = new ModelManager();
+		EObject root = manager.loadModel("model_input/example.sct");
+		Statechart s = (Statechart) root;
+		
+		Task4_3(s);
+	}
+	
+	//osszes event es osszes valtozo kiirasa
+	public static void Task4_3(Statechart s) {
+		TreeIterator<EObject> iterator = s.eAllContents();
+		while (iterator.hasNext()) {
+			EObject content = iterator.next();
+			if(content instanceof EventDefinition) {
+				EventDefinition a = (EventDefinition) content;
+				if (a.getDirection() == Direction.IN) //csak a bemeno esemenyek kiirasa
+					System.out.println(a.getName());
+			} else
+			if(content instanceof VariableDefinition) {
+				VariableDefinition b = (VariableDefinition) content;
+				System.out.println(b.getName());
+			}
+		}
+	}
+	
+	public static void Task4_4(Statechart s) {
+		TreeIterator<EObject> iterator = s.eAllContents();
+		while (iterator.hasNext()) {
+			EObject content = iterator.next();
+			if(content instanceof EventDefinition) {
+				EventDefinition a = (EventDefinition) content;
+				if (a.getDirection() == Direction.IN) //csak a bemeno esemenyek kiirasa
+					System.out.println(a.getName());
+			} else
+			if(content instanceof VariableDefinition) {
+				VariableDefinition b = (VariableDefinition) content;
+				System.out.println(b.getName());
+			}
+		}
+	}
+	
+}

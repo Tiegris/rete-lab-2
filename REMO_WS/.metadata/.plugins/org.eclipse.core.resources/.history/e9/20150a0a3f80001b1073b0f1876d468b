@@ -1,0 +1,49 @@
+package hu.bme.mit.yakindu.analysis.workhere;
+
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.yakindu.sct.model.sgraph.State;
+import org.yakindu.sct.model.sgraph.Statechart;
+import org.yakindu.sct.model.sgraph.Transition;
+
+import hu.bme.mit.model2gml.Model2GML;
+import hu.bme.mit.yakindu.analysis.modelmanager.ModelManager;
+
+public class Task4 {
+	
+	public static void Main() {
+		ModelManager manager = new ModelManager();
+		EObject root = manager.loadModel("model_input/example.sct");
+		Statechart s = (Statechart) root;
+		
+		
+	}
+	
+	public static void Task4_3(Statechart s) {
+		TreeIterator<EObject> iterator = s.eAllContents();
+		while (iterator.hasNext()) {
+			EObject content = iterator.next();
+			if(content instanceof State) {
+				State state = (State) content;
+				System.out.println(state.getName());
+			}
+			//tranzakciok kiirasa
+			if(content instanceof Transition) {
+				Transition t = (Transition) content;
+				String source = t.getSource().getName();
+				String target = t.getTarget().getName();
+				System.out.println(source + " -> " + target);
+			}
+		}
+		
+		System.out.println("Csapda allapotok:");
+		for (String i:SearchTraps(s)) {
+			System.out.println(i);
+		}
+
+		
+
+	}
+	
+	
+}

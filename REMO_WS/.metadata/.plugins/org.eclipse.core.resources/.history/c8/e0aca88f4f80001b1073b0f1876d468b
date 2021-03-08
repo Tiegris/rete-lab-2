@@ -1,0 +1,52 @@
+package hu.bme.mit.yakindu.analysis.workhere;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+import hu.bme.mit.yakindu.analysis.RuntimeService;
+import hu.bme.mit.yakindu.analysis.TimerService;
+import hu.bme.mit.yakindu.analysis.example.ExampleStatemachine;
+import hu.bme.mit.yakindu.analysis.example.IExampleStatemachine;
+
+
+
+public class RunStatechart {
+    public static void main(String[] args) throws IOException {
+        ExampleStatemachine s = new ExampleStatemachine();
+        s.setTimer(new TimerService());
+        RuntimeService.getInstance().registerStatemachine(s, 200);
+        s.init();
+        s.enter();
+        s.runCycle();
+        print(s);
+        Scanner sc = new Scanner(System.in);
+        while (true) Parse(s, sc.nextLine());
+    }
+
+    public static void Parse(ExampleStatemachine sm, String s) {
+        print(sm);
+        switch (s) {
+        case "start":
+            sm.raiseStart();
+            sm.runCycle();
+            break;
+        case "red":
+            sm.raiseRed();
+            sm.runCycle();
+            break;
+        case "blue":
+            sm.raiseBlue();
+            sm.runCycle();
+            break;
+        case "exit":
+            System.exit(0);
+        }
+    }
+
+    public static void print(IExampleStatemachine s) {
+        System.out.println("R = " + s.getSCInterface().getRedTime());
+        System.out.println("B = " + s.getSCInterface().getBlueTime());
+    }
+
+
+}
