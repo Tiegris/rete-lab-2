@@ -12,49 +12,42 @@ public class ExampleStatemachine implements IExampleStatemachine {
 			start = true;
 		}
 		
-		private boolean crash;
+		private boolean red;
 		
-		public void raiseCrash() {
-			crash = true;
+		public void raiseRed() {
+			red = true;
 		}
 		
-		private boolean white;
+		private boolean blue;
 		
-		public void raiseWhite() {
-			white = true;
+		public void raiseBlue() {
+			blue = true;
 		}
 		
-		private boolean black;
+		private long redTime;
 		
-		public void raiseBlack() {
-			black = true;
+		public long getRedTime() {
+			return redTime;
 		}
 		
-		private long whiteTime;
-		
-		public long getWhiteTime() {
-			return whiteTime;
+		public void setRedTime(long value) {
+			this.redTime = value;
 		}
 		
-		public void setWhiteTime(long value) {
-			this.whiteTime = value;
+		private long blueTime;
+		
+		public long getBlueTime() {
+			return blueTime;
 		}
 		
-		private long blackTime;
-		
-		public long getBlackTime() {
-			return blackTime;
-		}
-		
-		public void setBlackTime(long value) {
-			this.blackTime = value;
+		public void setBlueTime(long value) {
+			this.blueTime = value;
 		}
 		
 		protected void clearEvents() {
 			start = false;
-			crash = false;
-			white = false;
-			black = false;
+			red = false;
+			blue = false;
 		}
 	}
 	
@@ -64,9 +57,8 @@ public class ExampleStatemachine implements IExampleStatemachine {
 	
 	public enum State {
 		main_region_Init,
-		main_region_Black,
-		main_region_White,
-		main_region_Trap,
+		main_region_Blue,
+		main_region_Red,
 		$NullState$
 	};
 	
@@ -92,9 +84,9 @@ public class ExampleStatemachine implements IExampleStatemachine {
 		}
 		clearEvents();
 		clearOutEvents();
-		sCInterface.setWhiteTime(60);
+		sCInterface.setRedTime(60);
 		
-		sCInterface.setBlackTime(60);
+		sCInterface.setBlueTime(60);
 	}
 	
 	public void enter() {
@@ -119,14 +111,11 @@ public class ExampleStatemachine implements IExampleStatemachine {
 			case main_region_Init:
 				main_region_Init_react(true);
 				break;
-			case main_region_Black:
-				main_region_Black_react(true);
+			case main_region_Blue:
+				main_region_Blue_react(true);
 				break;
-			case main_region_White:
-				main_region_White_react(true);
-				break;
-			case main_region_Trap:
-				main_region_Trap_react(true);
+			case main_region_Red:
+				main_region_Red_react(true);
 				break;
 			default:
 				// $NullState$
@@ -177,12 +166,10 @@ public class ExampleStatemachine implements IExampleStatemachine {
 		switch (state) {
 		case main_region_Init:
 			return stateVector[0] == State.main_region_Init;
-		case main_region_Black:
-			return stateVector[0] == State.main_region_Black;
-		case main_region_White:
-			return stateVector[0] == State.main_region_White;
-		case main_region_Trap:
-			return stateVector[0] == State.main_region_Trap;
+		case main_region_Blue:
+			return stateVector[0] == State.main_region_Blue;
+		case main_region_Red:
+			return stateVector[0] == State.main_region_Red;
 		default:
 			return false;
 		}
@@ -220,51 +207,47 @@ public class ExampleStatemachine implements IExampleStatemachine {
 		sCInterface.raiseStart();
 	}
 	
-	public void raiseCrash() {
-		sCInterface.raiseCrash();
+	public void raiseRed() {
+		sCInterface.raiseRed();
 	}
 	
-	public void raiseWhite() {
-		sCInterface.raiseWhite();
+	public void raiseBlue() {
+		sCInterface.raiseBlue();
 	}
 	
-	public void raiseBlack() {
-		sCInterface.raiseBlack();
+	public long getRedTime() {
+		return sCInterface.getRedTime();
 	}
 	
-	public long getWhiteTime() {
-		return sCInterface.getWhiteTime();
+	public void setRedTime(long value) {
+		sCInterface.setRedTime(value);
 	}
 	
-	public void setWhiteTime(long value) {
-		sCInterface.setWhiteTime(value);
+	public long getBlueTime() {
+		return sCInterface.getBlueTime();
 	}
 	
-	public long getBlackTime() {
-		return sCInterface.getBlackTime();
+	public void setBlueTime(long value) {
+		sCInterface.setBlueTime(value);
 	}
 	
-	public void setBlackTime(long value) {
-		sCInterface.setBlackTime(value);
-	}
-	
-	/* Entry action for state 'Black'. */
-	private void entryAction_main_region_Black() {
+	/* Entry action for state 'Blue'. */
+	private void entryAction_main_region_Blue() {
 		timer.setTimer(this, 0, (1 * 1000), false);
 	}
 	
-	/* Entry action for state 'White'. */
-	private void entryAction_main_region_White() {
+	/* Entry action for state 'Red'. */
+	private void entryAction_main_region_Red() {
 		timer.setTimer(this, 1, (1 * 1000), false);
 	}
 	
-	/* Exit action for state 'Black'. */
-	private void exitAction_main_region_Black() {
+	/* Exit action for state 'Blue'. */
+	private void exitAction_main_region_Blue() {
 		timer.unsetTimer(this, 0);
 	}
 	
-	/* Exit action for state 'White'. */
-	private void exitAction_main_region_White() {
+	/* Exit action for state 'Red'. */
+	private void exitAction_main_region_Red() {
 		timer.unsetTimer(this, 1);
 	}
 	
@@ -274,24 +257,18 @@ public class ExampleStatemachine implements IExampleStatemachine {
 		stateVector[0] = State.main_region_Init;
 	}
 	
-	/* 'default' enter sequence for state Black */
-	private void enterSequence_main_region_Black_default() {
-		entryAction_main_region_Black();
+	/* 'default' enter sequence for state Blue */
+	private void enterSequence_main_region_Blue_default() {
+		entryAction_main_region_Blue();
 		nextStateIndex = 0;
-		stateVector[0] = State.main_region_Black;
+		stateVector[0] = State.main_region_Blue;
 	}
 	
-	/* 'default' enter sequence for state White */
-	private void enterSequence_main_region_White_default() {
-		entryAction_main_region_White();
+	/* 'default' enter sequence for state Red */
+	private void enterSequence_main_region_Red_default() {
+		entryAction_main_region_Red();
 		nextStateIndex = 0;
-		stateVector[0] = State.main_region_White;
-	}
-	
-	/* 'default' enter sequence for state Trap */
-	private void enterSequence_main_region_Trap_default() {
-		nextStateIndex = 0;
-		stateVector[0] = State.main_region_Trap;
+		stateVector[0] = State.main_region_Red;
 	}
 	
 	/* 'default' enter sequence for region main region */
@@ -305,26 +282,20 @@ public class ExampleStatemachine implements IExampleStatemachine {
 		stateVector[0] = State.$NullState$;
 	}
 	
-	/* Default exit sequence for state Black */
-	private void exitSequence_main_region_Black() {
+	/* Default exit sequence for state Blue */
+	private void exitSequence_main_region_Blue() {
 		nextStateIndex = 0;
 		stateVector[0] = State.$NullState$;
 		
-		exitAction_main_region_Black();
+		exitAction_main_region_Blue();
 	}
 	
-	/* Default exit sequence for state White */
-	private void exitSequence_main_region_White() {
+	/* Default exit sequence for state Red */
+	private void exitSequence_main_region_Red() {
 		nextStateIndex = 0;
 		stateVector[0] = State.$NullState$;
 		
-		exitAction_main_region_White();
-	}
-	
-	/* Default exit sequence for state Trap */
-	private void exitSequence_main_region_Trap() {
-		nextStateIndex = 0;
-		stateVector[0] = State.$NullState$;
+		exitAction_main_region_Red();
 	}
 	
 	/* Default exit sequence for region main region */
@@ -333,14 +304,11 @@ public class ExampleStatemachine implements IExampleStatemachine {
 		case main_region_Init:
 			exitSequence_main_region_Init();
 			break;
-		case main_region_Black:
-			exitSequence_main_region_Black();
+		case main_region_Blue:
+			exitSequence_main_region_Blue();
 			break;
-		case main_region_White:
-			exitSequence_main_region_White();
-			break;
-		case main_region_Trap:
-			exitSequence_main_region_Trap();
+		case main_region_Red:
+			exitSequence_main_region_Red();
 			break;
 		default:
 			break;
@@ -363,34 +331,29 @@ public class ExampleStatemachine implements IExampleStatemachine {
 			if (react()==false) {
 				if (sCInterface.start) {
 					exitSequence_main_region_Init();
-					enterSequence_main_region_White_default();
+					enterSequence_main_region_Red_default();
 				} else {
-					if (sCInterface.crash) {
-						exitSequence_main_region_Init();
-						enterSequence_main_region_Trap_default();
-					} else {
-						did_transition = false;
-					}
+					did_transition = false;
 				}
 			}
 		}
 		return did_transition;
 	}
 	
-	private boolean main_region_Black_react(boolean try_transition) {
+	private boolean main_region_Blue_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
 			if (react()==false) {
-				if (sCInterface.black) {
-					exitSequence_main_region_Black();
-					enterSequence_main_region_White_default();
+				if (sCInterface.blue) {
+					exitSequence_main_region_Blue();
+					enterSequence_main_region_Red_default();
 				} else {
 					if (timeEvents[0]) {
-						exitSequence_main_region_Black();
-						sCInterface.setBlackTime(sCInterface.getBlackTime() - 1);
+						exitSequence_main_region_Blue();
+						sCInterface.setBlueTime(sCInterface.getBlueTime() - 1);
 						
-						enterSequence_main_region_Black_default();
+						enterSequence_main_region_Blue_default();
 					} else {
 						did_transition = false;
 					}
@@ -400,35 +363,24 @@ public class ExampleStatemachine implements IExampleStatemachine {
 		return did_transition;
 	}
 	
-	private boolean main_region_White_react(boolean try_transition) {
+	private boolean main_region_Red_react(boolean try_transition) {
 		boolean did_transition = try_transition;
 		
 		if (try_transition) {
 			if (react()==false) {
-				if (sCInterface.white) {
-					exitSequence_main_region_White();
-					enterSequence_main_region_Black_default();
+				if (sCInterface.red) {
+					exitSequence_main_region_Red();
+					enterSequence_main_region_Blue_default();
 				} else {
 					if (timeEvents[1]) {
-						exitSequence_main_region_White();
-						sCInterface.setWhiteTime(sCInterface.getWhiteTime() - 1);
+						exitSequence_main_region_Red();
+						sCInterface.setRedTime(sCInterface.getRedTime() - 1);
 						
-						enterSequence_main_region_White_default();
+						enterSequence_main_region_Red_default();
 					} else {
 						did_transition = false;
 					}
 				}
-			}
-		}
-		return did_transition;
-	}
-	
-	private boolean main_region_Trap_react(boolean try_transition) {
-		boolean did_transition = try_transition;
-		
-		if (try_transition) {
-			if (react()==false) {
-				did_transition = false;
 			}
 		}
 		return did_transition;

@@ -1,0 +1,42 @@
+package hu.bme.mit.yakindu.analysis.workhere;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.yakindu.sct.model.sgraph.Scope;
+import org.yakindu.sct.model.sgraph.State;
+import org.yakindu.sct.model.sgraph.Statechart;
+import org.yakindu.sct.model.sgraph.Transition;
+import org.yakindu.sct.model.sgraph.Trigger;
+import org.yakindu.sct.model.stext.stext.EventDefinition;
+
+import hu.bme.mit.model2gml.Model2GML;
+import hu.bme.mit.yakindu.analysis.modelmanager.ModelManager;
+
+public class Task4 {
+	
+	public static void Main() {
+		ModelManager manager = new ModelManager();
+		EObject root = manager.loadModel("model_input/example.sct");
+		Statechart s = (Statechart) root;
+		
+		Task4_3(s);
+	}
+	
+	public static void Task4_3(Statechart s) {
+		EList<Scope> sc = s.getScopes();
+		
+		EventDefinition a;
+		EList<Scope> iterator = s.getScopes();
+		for (Scope i : iterator) {
+			if(i instanceof EventDefinition) {
+				EventDefinition e = (EventDefinition) i;					
+				System.out.println(e.getName());			
+			}
+		}
+
+	}
+	
+	
+	
+}

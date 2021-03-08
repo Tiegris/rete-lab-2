@@ -19,6 +19,11 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
+		//Task2_main();
+		Task4.Main();		
+	}
+	
+	public static void Task2_main() {
 		ModelManager manager = new ModelManager();
 		Model2GML model2gml = new Model2GML();
 		

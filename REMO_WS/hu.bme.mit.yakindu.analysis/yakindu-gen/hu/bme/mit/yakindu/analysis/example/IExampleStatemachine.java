@@ -9,19 +9,17 @@ public interface IExampleStatemachine extends ITimerCallback,IStatemachine {
 	
 		public void raiseStart();
 		
-		public void raiseCrash();
+		public void raiseRed();
 		
-		public void raiseWhite();
+		public void raiseBlue();
 		
-		public void raiseBlack();
+		public long getRedTime();
 		
-		public long getWhiteTime();
+		public void setRedTime(long value);
 		
-		public void setWhiteTime(long value);
+		public long getBlueTime();
 		
-		public long getBlackTime();
-		
-		public void setBlackTime(long value);
+		public void setBlueTime(long value);
 		
 	}
 	

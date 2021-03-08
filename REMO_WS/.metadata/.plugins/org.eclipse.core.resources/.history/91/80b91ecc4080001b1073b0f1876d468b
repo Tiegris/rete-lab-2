@@ -1,0 +1,41 @@
+package hu.bme.mit.yakindu.analysis.workhere;
+
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.yakindu.sct.model.sgraph.State;
+import org.yakindu.sct.model.sgraph.Statechart;
+import org.yakindu.sct.model.sgraph.Transition;
+import org.yakindu.sct.model.sgraph.Trigger;
+
+import hu.bme.mit.model2gml.Model2GML;
+import hu.bme.mit.yakindu.analysis.modelmanager.ModelManager;
+
+public class Task4 {
+	
+	public static void Main() {
+		ModelManager manager = new ModelManager();
+		EObject root = manager.loadModel("model_input/example.sct");
+		Statechart s = (Statechart) root;
+		
+		Task4_3(s);
+	}
+	
+	public static void Task4_3(Statechart s) {
+		
+		TreeIterator<EObject> iterator = s.eAllContents();
+		while (iterator.hasNext()) {
+			EObject content = iterator.next();
+			if(content instanceof Trigger) {
+				Trigger trigger = (Trigger) content;
+				TreeIterator<EObject> e = trigger.eAllContents();				
+				
+				
+				System.out.println(e.toString());			
+			}
+		}
+
+	}
+	
+	
+	
+}
