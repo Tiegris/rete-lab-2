@@ -9,6 +9,8 @@ public interface IExampleStatemachine extends ITimerCallback,IStatemachine {
 	
 		public void raiseStart();
 		
+		public void raiseCrash();
+		
 		public void raiseWhite();
 		
 		public void raiseBlack();
